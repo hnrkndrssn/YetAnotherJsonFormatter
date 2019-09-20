@@ -1,0 +1,26 @@
+{
+  "name": "yet-another-online-jsonviewer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --dest ../../publish/app",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.18.0",
+    "vue": "^2.6.6",
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^7.0.0",
+    "vuetify": "^1.5.6"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.5.0",
+    "@vue/cli-plugin-typescript": "^3.5.0",
+    "@vue/cli-service": "^3.5.0",
+    "typescript": "^3.2.1",
+    "vue-template-compiler": "^2.5.21",
+    "vue2-ace-editor": "0.0.13"
+  }
+}
