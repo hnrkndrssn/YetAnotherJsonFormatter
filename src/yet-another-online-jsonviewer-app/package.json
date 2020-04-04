@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
