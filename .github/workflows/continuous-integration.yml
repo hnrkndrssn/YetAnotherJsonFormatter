@@ -27,13 +27,13 @@ jobs:
       - name: Calculate version
         uses: docker://gittools/gitversion:latest-linux
         with:
-          args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/version.txt\""
+          args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/version.txt\ && echo $GitVersion_InformationalVersion > /github/workspace/informationalversion.txt""
 
       - name: persist version file
         uses: actions/upload-artifact@v1
         with:
           name: gitversion
-          path: '${{ github.workspace }}/version.txt'
+          path: '${{ github.workspace }}/*version.txt'
 
   build-web-app:
     runs-on: ubuntu-latest
@@ -61,6 +61,7 @@ jobs:
           npm run lint
           npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
           npm run test --if-present
+          npm version ${{ env.GITVERSION_FULLSEMVER }}
         working-directory: ./src/yet-another-online-jsonviewer-app
 
       - name: persist web app artifact
@@ -83,6 +84,7 @@ jobs:
           name: gitversion
 
       - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
+      - run: echo "::set-env name=GITVERSION_INFORMATIONALVERSION::$(cat gitversion/informationalversion.txt)"
 
       - name: setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -91,7 +93,7 @@ jobs:
 
       - name: dotnet build and publish
         run: |
-          dotnet build --configuration Release
+          dotnet build --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }};InformationalVersion=${{ env.GITVERSION_INFORMATIONALVERSION }}
           dotnet publish -o '${{ env.PUBLISH_PATH }}/api'
         working-directory: ./src/YetAnotherJsonFormatter
 
