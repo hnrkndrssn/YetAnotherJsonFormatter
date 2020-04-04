@@ -88,7 +88,7 @@ import axios from 'axios';
         transformResponse: undefined,
       })
       .then((response: any) => {
-        this.$data.formattedJson = JSON.parse(response.data)
+        this.$data.formattedJson = JSON.parse(response.data);
         this.$data.snackbar.text = 'JSON is valid!';
         this.$data.snackbar.color = 'success';
         this.$data.snackbar.multiline = false;
