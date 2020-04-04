@@ -16,11 +16,35 @@ env:
 
 jobs:
 
+  git-version:
+    runs-on: ubntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Calculate version
+        uses: docker://gittools/gitversion:latest-linux
+        with:
+          args: ${{ env.GITHUB_WORKSPACE }} /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > ${{ env.GITHUB_WORKSPACE }}/version.txt\""
+
+      - name: persist version file
+        uses: actions/upload-artifact@v1
+        with:
+          name: gitversion
+          path: '${{ env.GITHUB_WORKSPACE }}/version.txt'
+
   build-web-app:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get gitversion artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: gitversion
+
+      - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion)"
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -38,7 +62,7 @@ jobs:
       - name: persist web app artifact
         uses: actions/upload-artifact@v1
         with:
-          name: 'web-app'
+          name: 'web-app.${{ env.GITVERSION_FULLSEMVER }}'
           path: '${{ env.ARTIFACT_PATH }}/app'
 
   build-web-api:
@@ -46,6 +70,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Get gitversion artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: gitversion
+
+      - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion)"
 
       - name: setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -61,6 +92,6 @@ jobs:
       - name: presist web api artifact
         uses: actions/upload-artifact@v1
         with:
-          name: 'web-api'
-          path: '${{ env.ARTIFACT_PATH }}/api'        
+          name: 'web-api.${{ env.GITVERSION_FULLSEMVER }}'
+          path: '${{ env.ARTIFACT_PATH }}/api'
         
