@@ -21,6 +21,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          git fetch --unshallow
 
       - name: Calculate version
         uses: docker://gittools/gitversion:latest-linux
@@ -40,8 +42,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        run: |
-          git fetch --unshallow
 
       - name: Get gitversion artifact
         uses: actions/download-artifact@v1
