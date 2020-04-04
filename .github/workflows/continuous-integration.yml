@@ -27,11 +27,11 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
 
     - name: npm install, lint and build
-        run: |
-          npm install
-          npm run lint
-          npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
-          npm run test --if-present
+      run: |
+        npm install
+        npm run lint
+        npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
+        npm run test --if-present
 
     - name: persist web app artifact
       uses: actions/upload-artifact@v1
