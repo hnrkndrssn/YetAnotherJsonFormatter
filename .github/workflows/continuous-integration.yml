@@ -15,49 +15,49 @@ env:
 
 jobs:
 
-  web-app:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup Node
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-
-    - name: npm install, lint and build
-      run: |
-        npm install
-        npm run lint
-        npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
-        npm run test --if-present
-
-    - name: persist web app artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: 'app'
-        path: '${{ env.PUBLISH_PATH }}/app'
-
-  web-api:
+  build-web-app:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: setup .NET Core
-      - uses: actions/setup-dotnet@v1
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: dotnet build and publish
+      - name: npm install, lint and build
         run: |
-          dotnet build ./src/YetAnotherJsonFormatter --configuration Release
-          dotnet publish ./src/YetAnotherJsonFormatter -o '${{ env.PUBLISH_PATH }}/api'
+          npm install
+          npm run lint
+          npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
+          npm run test --if-present
 
-      - name: presist web api artifact
+      - name: persist web app artifact
         uses: actions/upload-artifact@v1
         with:
-          name: 'api'
-          path: '${{ env:PUBLISH_PATH }}/api'        
+          name: 'web-app'
+          path: '${{ env.PUBLISH_PATH }}/app'
+
+    build-web-api:
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v2
+
+        - name: setup .NET Core
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+
+        - name: dotnet build and publish
+          run: |
+            dotnet build ./src/YetAnotherJsonFormatter --configuration Release
+            dotnet publish ./src/YetAnotherJsonFormatter -o '${{ env.PUBLISH_PATH }}/api'
+
+        - name: presist web api artifact
+          uses: actions/upload-artifact@v1
+          with:
+            name: 'web-api'
+            path: '${{ env:PUBLISH_PATH }}/api'        
         
