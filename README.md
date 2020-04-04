@@ -1,5 +1,7 @@
 # YetAnotherJsonFormatter
 
+![Continuous Integration](https://github.com/hnrkndrssn/YetAnotherJsonFormatter/workflows/Continuous%20Integration/badge.svg)
+
 A simple JSON formatter website that provides an API for formatting JSON documents
 
 Many websites which offer API's, will return data in JSON format. Often the JSON provided has white space compressed to reduce the size of the data transferred. This site gives you a quick and easy way to format the JSON so you can read it. 
