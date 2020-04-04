@@ -48,7 +48,7 @@ jobs:
         with:
           name: gitversion
 
-      - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion)"
+      - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -82,7 +82,7 @@ jobs:
         with:
           name: gitversion
 
-      - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion)"
+      - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
 
       - name: setup .NET Core
         uses: actions/setup-dotnet@v1
