@@ -61,9 +61,9 @@ jobs:
         run: |
           npm install
           npm run lint
+          npm version ${{ env.GITVERSION_FULLSEMVER }}
           npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
           npm run test --if-present
-          npm version ${{ env.GITVERSION_FULLSEMVER }}
         working-directory: ./src/yet-another-online-jsonviewer-app
 
       - name: persist web app artifact
@@ -95,7 +95,7 @@ jobs:
 
       - name: dotnet build and publish
         run: |
-          dotnet build --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }}
+          dotnet build --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }} -p:InformationalVersion=${{ env.GITVERSION_INFORMATIONALVERSION }}
           dotnet publish -o '${{ env.PUBLISH_PATH }}/api'
         working-directory: ./src/YetAnotherJsonFormatter
 
