@@ -32,6 +32,7 @@ jobs:
           npm run lint
           npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
           npm run test --if-present
+        working-directory: ./src/yet-another-online-jsonviewer-app
 
       - name: persist web app artifact
         uses: actions/upload-artifact@v1
@@ -52,8 +53,9 @@ jobs:
 
       - name: dotnet build and publish
         run: |
-          dotnet build ./src/YetAnotherJsonFormatter --configuration Release
-          dotnet publish ./src/YetAnotherJsonFormatter -o '${{ env.PUBLISH_PATH }}/api'
+          dotnet build --configuration Release
+          dotnet publish -o '${{ env.PUBLISH_PATH }}/api'
+        working-directory: ./src/YetAnotherJsonFormatter
 
       - name: presist web api artifact
         uses: actions/upload-artifact@v1
