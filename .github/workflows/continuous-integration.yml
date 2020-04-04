@@ -95,8 +95,8 @@ jobs:
 
       - name: dotnet build and publish
         run: |
-          dotnet build --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }} -p:InformationalVersion=${{ env.GITVERSION_INFORMATIONALVERSION }}
-          dotnet publish -o '${{ env.PUBLISH_PATH }}/api'
+          dotnet build --configuration Release
+          dotnet publish --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }} -p:InformationalVersion=${{ env.GITVERSION_INFORMATIONALVERSION }} -o '${{ env.PUBLISH_PATH }}/api'
         working-directory: ./src/YetAnotherJsonFormatter
 
       - name: presist web api artifact
