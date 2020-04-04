@@ -9,6 +9,7 @@ on:
       - master
 env:
   PUBLISH_PATH: '../../publish'
+  ARTIFACT_PATH: './publish'
   NODE_VERSION: '12.x'
   DOTNET_VERSION: '3.1.100'
   CI: true
@@ -38,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: 'web-app'
-          path: '${{ env.PUBLISH_PATH }}/app'
+          path: '${{ env.ARTIFACT_PATH }}/app'
 
   build-web-api:
     runs-on: ubuntu-latest
@@ -61,5 +62,5 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: 'web-api'
-          path: '${{ env.PUBLISH_PATH }}/api'        
+          path: '${{ env.ARTIFACT_PATH }}/api'        
         
