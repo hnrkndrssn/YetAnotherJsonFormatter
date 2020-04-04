@@ -57,7 +57,7 @@ namespace YetAnotherJsonFormatter
                 return new JsonResult(new { success = true, message = "Input is valid JSON" });
 
             log.LogError(error, error.Message);
-            return new BadRequestObjectResult($"Wah wah wah, input is not valid JSON.{Environment.NewLine}{error.Message}");
+            return new BadRequestObjectResult(new { success = false, message = $"Wah wah wah, input is not valid JSON.{Environment.NewLine}{error.Message}" });
         }
     }
 }
