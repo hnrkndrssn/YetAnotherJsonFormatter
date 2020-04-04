@@ -5,25 +5,11 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Net.Http;
-using System.IO;
-using System.Net;
 
 namespace YetAnotherJsonFormatter
 {
     public static class Functions
     {
-        [FunctionName("LetsEncrypt")]
-        public static HttpResponseMessage LetsEncrypt([HttpTrigger(AuthorizationLevel.Anonymous, Route = "letsencrypt/{code}")] HttpRequestMessage req, string code, ILogger log)
-        {
-            log.LogInformation($"Let's Encrypt function processed a request. {code}");
-
-            var content = File.ReadAllText(@"D:\home\site\letsencrypt\.well-known\acme-challenge\" + code);
-            var resp = new HttpResponseMessage(HttpStatusCode.OK);
-            resp.Content = new StringContent(content, System.Text.Encoding.UTF8, "text/plain");
-            return resp;
-        }
-
         [FunctionName("Format")]
         public static async Task<IActionResult> Format(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", "options", Route = "json")] HttpRequest req,
