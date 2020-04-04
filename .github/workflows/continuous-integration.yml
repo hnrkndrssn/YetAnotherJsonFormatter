@@ -1,0 +1,63 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches: 
+      - '*'
+  push:
+    branches: 
+      - master
+env:
+  PUBLISH_PATH: './publish'
+  NODE_VERSION: '12.x'
+  DOTNET_VERSION: '3.1.100'
+  CI: true
+
+jobs:
+
+  web-app:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+
+    - name: npm install, lint and build
+        run: |
+          npm install
+          npm run lint
+          npm run build -- --dest '${{ env.PUBLISH_PATH }}/app'
+          npm run test --if-present
+
+    - name: persist web app artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: 'app'
+        path: '${{ env.PUBLISH_PATH }}/app'
+
+  web-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup .NET Core
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: dotnet build and publish
+        run: |
+          dotnet build ./src/YetAnotherJsonFormatter --configuration Release
+          dotnet publish ./src/YetAnotherJsonFormatter -o '${{ env.PUBLISH_PATH }}/api'
+
+      - name: presist web api artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: 'api'
+          path: '${{ env:PUBLISH_PATH }}/api'        
+        
