@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: gitversion
-          path: '/github/workspace/version.txt'
+          path: '${{ github.workspace }}/version.txt'
 
   build-web-app:
     runs-on: ubuntu-latest
