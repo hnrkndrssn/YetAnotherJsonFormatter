@@ -27,13 +27,13 @@ jobs:
       - name: Calculate version
         uses: docker://gittools/gitversion:latest-linux
         with:
-          args: ${{ env.GITHUB_WORKSPACE }} /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > ${{ env.GITHUB_WORKSPACE }}/version.txt\""
+          args: ${{ env.GITHUB_WORKSPACE }} /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > ${{ env.ARTIFACT_PATH }}/version.txt\""
 
       - name: persist version file
         uses: actions/upload-artifact@v1
         with:
           name: gitversion
-          path: '${{ env.GITHUB_WORKSPACE }}/version.txt'
+          path: '${{ env.ARTIFACT_PATH }}/version.txt'
 
   build-web-app:
     runs-on: ubuntu-latest
