@@ -95,7 +95,7 @@ jobs:
 
       - name: dotnet build and publish
         run: |
-          dotnet build --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }};InformationalVersion=${{ env.GITVERSION_INFORMATIONALVERSION }}
+          dotnet build --configuration Release -p:Version=${{ env.GITVERSION_FULLSEMVER }}
           dotnet publish -o '${{ env.PUBLISH_PATH }}/api'
         working-directory: ./src/YetAnotherJsonFormatter
 
