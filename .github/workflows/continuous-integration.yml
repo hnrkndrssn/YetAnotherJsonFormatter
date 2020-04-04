@@ -24,16 +24,18 @@ jobs:
       - run: |
           git fetch --unshallow
 
+      - run: mkdir -p '${{ github.workspace }}/gitversion'
+
       - name: Calculate version
         uses: docker://gittools/gitversion:latest-linux
         with:
-          args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/version.txt\ && echo $GitVersion_InformationalVersion > /github/workspace/informationalversion.txt""
+          args: /github/workspace /nofetch /exec /bin/sh /execargs "-c \"echo $GitVersion_FullSemVer > /github/workspace/gitversion/version.txt && echo $GitVersion_InformationalVersion > /github/workspace/gitversion/informationalversion.txt\""
 
       - name: persist version file
         uses: actions/upload-artifact@v1
         with:
           name: gitversion
-          path: '${{ github.workspace }}/*version.txt'
+          path: '${{ github.workspace }}/gitversion'
 
   build-web-app:
     runs-on: ubuntu-latest
