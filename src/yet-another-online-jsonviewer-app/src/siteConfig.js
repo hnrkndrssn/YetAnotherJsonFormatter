@@ -4,7 +4,7 @@ import { version } from '../package';
 
 const siteConfig = {
     version,
-    apiUrl: 'https://api.yajsonfmt.app',
+    apiUrl: 'http://localhost:7071',
 };
 
 export default siteConfig;
