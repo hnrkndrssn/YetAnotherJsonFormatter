@@ -10,8 +10,11 @@ on:
 env:
   NODE_WEBAPP_PACKAGE_PATH: './src/yet-another-online-jsonviewer-app'
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './src/YetAnotherJsonFormatter'
+  ARTIFACTS_PATH: '${{ github.workspace }}/artifacts'
   DOTNET_VERSION: '3.1.100'
   NODE_VERSION: '12.x'
+  WEB_APP_PACKAGE_NAME: "yajsonfmt.web"
+  WEB_API_PACKAGE_NAME: "yajsonfmt.api"
   CI: true
 
 jobs:
@@ -106,4 +109,46 @@ jobs:
         with:
           name: web-api
           path: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/publish'
+  
+  publish-packages:
+      runs-on: ubuntu-latest
+
+      needs: [build-web-app, build-web-api]
+
+      steps:
+        - run: mkdir -p ${{ env.ARTIFACTS_PATH }}
+
+        - name: Get gitversion artifact
+          uses: actions/download-artifact@v1
+          with:
+            name: gitversion
+            path: ${{ env.ARTIFACTS_PATH }}
+
+        - name: Get web app artifact
+          uses: actions/download-artifact@v1
+          with: 
+            name: web-app
+            path: ${{ env.ARTIFACTS_PATH }}
+
+        - name: Get web api artifact
+          uses: actions/download-artifact@v1
+          with:
+            name: web-api
+            path: ${{ env.ARTIFACTS_PATH }}
+
+        - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
+
+        - name: Pack web app
+          uses: docker://octopusdeploy/octo:latest-alpine
+          with:
+            args: pack --id=${{ env.WEB_APP_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=/github/workspace/artifacts/web-app --outFolder=/github/workspace/artifacts --format=Zip --overwrite
+
+        - name: Pack web api
+          uses: docker://octopusdeploy/octo:latest-alpine
+          with:
+            args: pack --id=${{ env.WEB_API_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=/github/workspace/artifacts/web-api --outFolder=/github/workspace//artifacts --format=Zip --overwrite
         
+        - name: Push to Octopus
+          uses: docker://octopusdeploy/octo:latest-alpine
+          with:
+            args: push --package=/github/workspace/artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --package=/github/workspace/artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --server ${{ secrets.OCTOPUS_URL }} --apiKey ${{ secrets.OCTOPUS_APIKEY }} --overwrite-mode IgnoreIfExists
