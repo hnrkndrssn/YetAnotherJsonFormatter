@@ -54,6 +54,7 @@ jobs:
           name: gitversion
 
       - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
+      - run: mkdir -p ${{ env.NODE_WEBAPP_PACKAGE_PATH }}/dist
 
       - name: Setup Node to use ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v1
@@ -91,6 +92,7 @@ jobs:
 
       - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
       - run: echo "::set-env name=GITVERSION_INFORMATIONALVERSION::$(cat gitversion/informationalversion.txt)"
+      - run: mkdir -p ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/publish
 
       - name: Setup .NET Core to use ${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v1
