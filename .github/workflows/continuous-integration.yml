@@ -143,14 +143,14 @@ jobs:
         - name: Pack web app
           uses: docker://octopusdeploy/octo:latest-alpine
           with:
-            args: pack --id=${{ env.WEB_APP_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=/github/workspace/artifacts/web-app --outFolder=/github/workspace/artifacts --format=Zip --overwrite
+            args: pack --id=${{ env.WEB_APP_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=./artifacts/web-app --outFolder=./artifacts --format=Zip --overwrite
 
         - name: Pack web api
           uses: docker://octopusdeploy/octo:latest-alpine
           with:
-            args: pack --id=${{ env.WEB_API_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=/github/workspace/artifacts/web-api --outFolder=/github/workspace//artifacts --format=Zip --overwrite
+            args: pack --id=${{ env.WEB_API_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=./artifacts/web-api --outFolder=./artifacts --format=Zip --overwrite
         
         - name: Push to Octopus
           uses: docker://octopusdeploy/octo:latest-alpine
           with:
-            args: push --package=/github/workspace/artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --package=/github/workspace/artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --server ${{ secrets.OCTOPUS_URL }} --apiKey ${{ secrets.OCTOPUS_APIKEY }} --overwrite-mode IgnoreIfExists
+            args: push --package=./artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --package=./artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --server ${{ secrets.OCTOPUS_URL }} --apiKey ${{ secrets.OCTOPUS_APIKEY }} --overwrite-mode IgnoreIfExists
