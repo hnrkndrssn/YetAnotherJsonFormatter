@@ -130,15 +130,15 @@ jobs:
           uses: actions/download-artifact@v1
           with: 
             name: web-app
-            path: ${{ env.ARTIFACTS_PATH }}
+            path: ${{ env.ARTIFACTS_PATH }}/web-app
 
         - name: Get web api artifact
           uses: actions/download-artifact@v1
           with:
             name: web-api
-            path: ${{ env.ARTIFACTS_PATH }}
+            path: ${{ env.ARTIFACTS_PATH }}/web-api
 
-        - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat gitversion/version.txt)"
+        - run: echo "::set-env name=GITVERSION_FULLSEMVER::$(cat artifacts/gitversion/version.txt)"
 
         - name: Pack web app
           uses: docker://octopusdeploy/octo:latest-alpine
