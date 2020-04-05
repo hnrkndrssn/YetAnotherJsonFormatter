@@ -4,7 +4,7 @@ import { version } from '../package';
 
 const siteConfig = {
     version,
-    apiUrl: 'http://localhost:7071',
+    apiUrl: process.env.VUE_APP_YAJSONFMT_APIURL || 'https://api.yajsonfmt.app',
 };
 
 export default siteConfig;

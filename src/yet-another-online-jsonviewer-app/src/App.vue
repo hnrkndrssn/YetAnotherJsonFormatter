@@ -36,7 +36,7 @@
           </template>
 
           <blockquote class="blockquote">
-              All API access is over <strong>HTTPS</strong>, and accessed from <kbd>https://api.yajsonfmt.app</kbd>. All data is sent and received as <strong>JSON</strong>.
+              All API access is over <strong>HTTPS</strong>, and accessed from <kbd>{{config.apiUrl}}</kbd>. All data is sent and received as <strong>JSON</strong>.
           </blockquote>
 
           <blockquote class="blockquote"
