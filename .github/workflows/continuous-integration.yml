@@ -152,4 +152,4 @@ jobs:
         - name: Push to Octopus
           uses: docker://octopusdeploy/octo:latest-alpine
           with:
-            args: push --package=./artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --package=./artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --server ${{ secrets.OCTOPUS_URL }} --apiKey ${{ secrets.OCTOPUS_APIKEY }} --overwrite-mode IgnoreIfExists
+            args: push --package=./artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --package=./artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --server ${{ secrets.OCTOPUS_URL }} --apiKey ${{ secrets.OCTOPUS_API_KEY }} --overwrite-mode IgnoreIfExists
