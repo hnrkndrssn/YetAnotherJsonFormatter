@@ -4,9 +4,16 @@ on:
   pull_request:
     branches: 
       - '*'
+    paths:
+      - "/src"
+      - ".github/workflows/**"
   push:
     branches: 
       - master
+    paths:
+      - "/src"
+      - ".github/workflows/**"
+
 env:
   AZURE_FUNCTION_APP_NAME: 'YetAnotherJsonFormatter'
   NODE_WEBAPP_PACKAGE_PATH: './src/yet-another-online-jsonviewer-app'
