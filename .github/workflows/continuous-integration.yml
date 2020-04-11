@@ -180,7 +180,8 @@ jobs:
           uses: hnrkndrssn/actions/octopus/create-release@master
           with:
             project: ${{ env.OCTOPUS_PROJECT_NAME }}
-            release_number: ${{ env.GITVERSION_FULLSEMVER }}
+            package_version: ${{ env.GITVERSION_FULLSEMVER }}
+            version: ${{ env.GITVERSION_FULLSEMVER }}
             deploy_to: 'Dev'
             progress: true
             wait_for_deployment: true
