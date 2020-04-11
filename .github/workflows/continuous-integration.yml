@@ -148,16 +148,29 @@ jobs:
             path: ${{ env.ARTIFACTS_PATH }}/web-api
 
         - name: Pack web app
-          uses: docker://octopusdeploy/octo:latest-alpine
+          uses: hnrkndrssn/actions/octopus/pack@master
           with:
-            args: pack --id=${{ env.WEB_APP_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=./artifacts/web-app --outFolder=./artifacts --format=Zip --overwrite
+            package_id: '${{ env.WEB_APP_PACKAGE_NAME }}'
+            version: '${{ env.GITVERSION_FULLSEMVER }}'
+            base_path: './artifacts/web-app'
+            out_folder: './artifacts'
+            format: 'Zip'
+            overwrite: true
 
         - name: Pack web api
-          uses: docker://octopusdeploy/octo:latest-alpine
+          uses: hnrkndrssn/actions/octopus/pack@master
           with:
-            args: pack --id=${{ env.WEB_API_PACKAGE_NAME }} --version=${{ env.GITVERSION_FULLSEMVER }} --basePath=./artifacts/web-api --outFolder=./artifacts --format=Zip --overwrite
+            package_id: '${{ env.WEB_API_PACKAGE_NAME }}'
+            version: '${{ env.GITVERSION_FULLSEMVER }}'
+            base_path: './artifacts/web-api'
+            out_folder: './artifacts'
+            format: 'Zip'
+            overwrite: true
         
         - name: Push to Octopus
-          uses: docker://octopusdeploy/octo:latest-alpine
+          uses: hnrkndrssn/actions/octopus/push@master
           with:
-            args: push --package=./artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --package=./artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip --server ${{ secrets.OCTOPUS_URL }} --apiKey ${{ secrets.OCTOPUS_API_KEY }} --overwrite-mode IgnoreIfExists
+            package: './artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip, ./artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip'
+            octopus_server: ${{ secrets.OCTOPUS_URL }}
+            octopus_api_key: ${{ secrets.OCTOPUS_API_KEY }}
+            overwrite_mode: 'IgnoreIfExists'
