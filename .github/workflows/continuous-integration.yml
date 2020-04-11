@@ -24,6 +24,7 @@ env:
   WEB_APP_PACKAGE_NAME: "yajsonfmt.web"
   WEB_API_PACKAGE_NAME: "yajsonfmt.api"
   OCTOPUS_PROJECT_NAME: "yajsonfmt app"
+  IS_TAG: ${{ !startsWith(github.ref, 'refs/head/')}}
   CI: true
 
 jobs:
@@ -182,6 +183,7 @@ jobs:
             project: ${{ env.OCTOPUS_PROJECT_NAME }}
             package_version: ${{ env.GITVERSION_FULLSEMVER }}
             version: ${{ env.GITVERSION_FULLSEMVER }} 
+            channel: ${{ env.IS_TAG ? 'Release', 'Pre-Release' }}
             deploy_to: 'Staging'
             progress: true
             wait_for_deployment: true
