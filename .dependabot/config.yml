@@ -1,0 +1,15 @@
+version: 1
+update_configs:
+  - package_manager: "javascript"
+    directory: "/src/yet-another-online-jsonviewer-app"
+    update_schedule: "weekly"
+    allowed_updates:
+      - match:
+          update_type: security
+
+  - package_manager: "dotnet:nuget"
+    directory: "/src/YetAnotherJsonFormatter"
+    update_schedule: "weekly"
+    allowed_updates:
+      - match:
+          update_type: security
