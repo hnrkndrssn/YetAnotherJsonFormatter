@@ -23,6 +23,7 @@ env:
   NODE_VERSION: '12.x'
   WEB_APP_PACKAGE_NAME: "yajsonfmt.web"
   WEB_API_PACKAGE_NAME: "yajsonfmt.api"
+  OCTOPUS_PROJECT_NAME: "yajsonfmt app"
   CI: true
 
 jobs:
@@ -174,3 +175,14 @@ jobs:
             octopus_server: ${{ secrets.OCTOPUS_URL }}
             octopus_api_key: ${{ secrets.OCTOPUS_API_KEY }}
             overwrite_mode: 'IgnoreIfExists'
+        
+        - name: Create release ${{ env.GITVERSION_FULLSEMVER }}
+          uses: hnrkndrssn/actions/octopus/create-release@master
+          with:
+            project: ${{ env.OCTOPUS_PROJECT_NAME }}
+            release_number: ${{ env.GITVERSION_FULLSEMVER }}
+            deploy_to: 'Dev'
+            progress: true
+            wait_for_deployment: true
+            octopus_server: ${{ secrets.OCTOPUS_URL }}
+            octopus_api_key: ${{ secrets.OCTOPUS_API_KEY }}
