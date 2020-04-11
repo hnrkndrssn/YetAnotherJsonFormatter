@@ -182,7 +182,7 @@ jobs:
             project: ${{ env.OCTOPUS_PROJECT_NAME }}
             package_version: ${{ env.GITVERSION_FULLSEMVER }}
             version: ${{ env.GITVERSION_FULLSEMVER }}
-            deploy_to: 'Dev'
+            deploy_to: 'Staging'
             progress: true
             wait_for_deployment: true
             octopus_server: ${{ secrets.OCTOPUS_URL }}
