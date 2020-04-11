@@ -170,7 +170,7 @@ jobs:
         - name: Push to Octopus
           uses: hnrkndrssn/actions/octopus/push@master
           with:
-            package: './artifacts/${{ env.WEB_APP_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip, ./artifacts/${{ env.WEB_API_PACKAGE_NAME }}.${{ env.GITVERSION_FULLSEMVER }}.zip'
+            package: './artifacts/*.zip'
             octopus_server: ${{ secrets.OCTOPUS_URL }}
             octopus_api_key: ${{ secrets.OCTOPUS_API_KEY }}
             overwrite_mode: 'IgnoreIfExists'
