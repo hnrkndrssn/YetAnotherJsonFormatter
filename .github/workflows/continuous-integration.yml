@@ -183,7 +183,7 @@ jobs:
             project: ${{ env.OCTOPUS_PROJECT_NAME }}
             package_version: ${{ env.GITVERSION_FULLSEMVER }}
             version: ${{ env.GITVERSION_FULLSEMVER }} 
-            channel: ${{ env.IS_TAG ? 'Release', 'Pre-Release' }}
+            channel: ${{ env.IS_TAG && 'Release' || 'Pre-Release' }}
             deploy_to: 'Staging'
             progress: true
             wait_for_deployment: true
